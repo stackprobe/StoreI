@@ -1,0 +1,137 @@
+----
+まだ使っている定番
+
+	Clean
+	Rebuild
+
+	cx
+	qq
+
+	zz
+
+	7z
+	z7
+
+	ees /lss
+	ees /lss /e
+
+	RenameAll
+	RenameAllSub
+
+	DvCmHs
+	DvUtHs
+
+----
+
+配下のリビルド
+
+	rr
+
+リリース物の回収
+
+	collout
+
+- - -
+(旧)
+
+配下のリビルド
+
+	runsub Release
+
+リリース物の回収
+
+	lss .zip*
+	lssColl
+
+----
+タイムスタンプのソート順がファイル名のソート順になるようにタイムスタンプを変更する。
+
+	SubTools\OrderStamp.c
+
+----
+Distinct
+
+	DevTools\TypeGroupBy /-c
+
+----
+ファイル名のソート順が逆になるようにファイル名を変更する。
+
+	Renum /R 1 1
+
+	又は
+
+	SubTools\OrderStamp /R　してから　SubTools\RenumStamp
+
+----
+最短行を探す。
+最長行を探す。
+最短パスを探す。
+最長パスを探す。
+
+	Longest.exe /S [最短の下限] 対象パス
+
+	★最短と最長を探す。
+
+----
+lssファイルリストを編集
+
+	ef
+
+----
+ｎ以下の文字列の長さ
+
+	strlen_max
+
+----
+文字列をｎ以上ｍ未満の長さに
+
+	setStrLenMin
+	setStrLenMax
+	setStrLenRng
+
+----
+SCommon.ParseIsland
+SCommon.ParseEnclosed
+
+	updateTagRng
+	updateAsciiTagRng
+
+----
+.wav ファイルの音量調整
+
+	wavVolume
+
+----
+.wav ファイルの無音長調整
+
+	wavPutMuon
+
+----
+無音の .wav ファイル作成
+
+	wavMakeMuon
+
+----
+フォルダ配下のファイル重複を解消する。
+
+	GazoSlim
+
+----
+MD5
+
+	md5 /lss
+	md5 /s
+
+	dmd5
+	dmd5 /s
+
+----
+連番出力
+
+1, 2, 3, ... 100 を行単位で標準出力する。
+
+	seq /c 1 1 100 1
+
+0001, 0002, 0003, ... 9999 を行単位で標準出力する。
+
+	seq /c 4 1 9999 1
