@@ -110,7 +110,7 @@ namespace Charlotte.Games.TActions
 					bool dir4 = !damageInputLock && 1 <= Inputs.DIR_4.GetInput();
 					bool dir6 = !damageInputLock && 1 <= Inputs.DIR_6.GetInput();
 					bool dir8 = !damageInputLock && 1 <= Inputs.DIR_8.GetInput();
-					int dir; // 1～9
+					int dir; // 8方向+0vec_テンキー方式
 
 					if (dir2 && dir4)
 						dir = 1;
@@ -156,20 +156,20 @@ namespace Charlotte.Games.TActions
 
 					switch (dir)
 					{
-						case 8:
-							this.Player.Y -= speed;
-							break;
-
-						case 2:
-							this.Player.Y += speed;
-							break;
-
 						case 4:
 							this.Player.X -= speed;
 							break;
 
 						case 6:
 							this.Player.X += speed;
+							break;
+
+						case 8:
+							this.Player.Y -= speed;
+							break;
+
+						case 2:
+							this.Player.Y += speed;
 							break;
 
 						case 1:
@@ -608,20 +608,20 @@ namespace Charlotte.Games.TActions
 
 				switch (this.ExitDirection)
 				{
-					case 8:
-						destSlideY = GameConfig.ScreenSize.H;
-						break;
-
-					case 2:
-						destSlideY = -GameConfig.ScreenSize.H;
-						break;
-
 					case 4:
 						destSlideX = GameConfig.ScreenSize.W;
 						break;
 
 					case 6:
 						destSlideX = -GameConfig.ScreenSize.W;
+						break;
+
+					case 8:
+						destSlideY = GameConfig.ScreenSize.H;
+						break;
+
+					case 2:
+						destSlideY = -GameConfig.ScreenSize.H;
 						break;
 
 					default:
@@ -856,7 +856,7 @@ namespace Charlotte.Games.TActions
 		{
 			SimpleMenu menu = new SimpleMenu(24, 30, 16, 400, "DEBUG", new string[]
  			{
-				"デバッグ強制遅延",
+				"強制遅延",
 				"当たり判定表示",
 				"ゲームに戻る",
 			});
@@ -875,7 +875,7 @@ namespace Charlotte.Games.TActions
 				{
 					DD.DrawCurtain(1.0);
 					DD.DrawCurtain(-0.5);
-					DD.SetPrint(500, 40, 40);
+					DD.SetPrint(410, 10, 20);
 					DD.PrintLine("SlowdownLevel: " + DD.SlowdownLevel);
 					DD.PrintLine("当たり判定表示：" + this.当たり判定表示);
 
@@ -889,7 +889,7 @@ namespace Charlotte.Games.TActions
 				switch (menu.SelectedIndex)
 				{
 					case 0:
-						DD.SlowdownLevel = (DD.SlowdownLevel + 1) % 8;
+						DD.SlowdownLevel = (DD.SlowdownLevel + 1) % 10;
 						break;
 
 					case 1:

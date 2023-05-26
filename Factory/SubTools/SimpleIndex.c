@@ -1,7 +1,11 @@
 /*
-	SimpleIndex.exe [/T タイトル] [/L リンク色] [/X テキスト色] [/B 背景色] [/P ルートの親リンク] [/-I] [/-M] [/-S] [/RN] ルートDIR
+	SimpleIndex.exe [/T タイトル] [/L リンク色] [/X テキスト色] [/B 背景色] [/P ルートの親リンク] [/-I] [/-M] [/SJ | /SJE | /SE] [/-S] [/RN] ルートDIR
 
 		/RN ... robots=noindex にする。$(ROBOTS) の記述は必要
+
+		/SJ  ... 日時の書式を日本語方式にする。デフォルト
+		/SJE ... 日時の書式を日本語方式にする。但し曜日は英語
+		/SE  ... 日時の書式を英語方式にする。
 */
 
 #include "C:\Factory\Common\all.h"
@@ -21,6 +25,7 @@ static char *BackColor = "#556b2f";
 static char *RootParentHRef;
 static int ImageTagDisabled;
 static int MD5Disabled;
+static int StampMode = 'J'; // "JeE" == { 日本語形式, 日本語形式(曜日は英語), 英語方式 }
 
 #define HIDDEN_FILE_TRAILER " (this file will be deleted soon)"
 //#define HIDDEN_FILE_TRAILER " (削除予定)"
@@ -142,6 +147,7 @@ static char *MakeDivList(uint depth, int noIndex)
 			char *lsize;
 			char *hash;
 			autoBlock_t *pab;
+			time_t t;
 			char *stamp;
 
 			size = getFileSize(path);
@@ -156,11 +162,28 @@ static char *MakeDivList(uint depth, int noIndex)
 			}
 			else
 			{
-				hash = strx("unknown (not calculated)");
+				hash = strx("not-calculated");
 			}
 
 			updateFindData(path);
-			stamp = makeStamp(lastFindData.time_write);
+			t = lastFindData.time_write;
+			switch (StampMode)
+			{
+			case 'J':
+				stamp = makeJStamp(getStampDataTime(t), 0);
+				break;
+
+			case 'e':
+				stamp = makeJStampEWeekday(getStampDataTime(t));
+				break;
+
+			case 'E':
+				stamp = makeStamp(t);
+				break;
+
+			default:
+				error(); // never
+			}
 
 			href = strx(path);
 			lref = xcout("%s", path);
@@ -376,6 +399,21 @@ readArgs:
 	if (argIs("/-M"))
 	{
 		MD5Disabled = 1;
+		goto readArgs;
+	}
+	if (argIs("/SJ"))
+	{
+		StampMode = 'J';
+		goto readArgs;
+	}
+	if (argIs("/SJE"))
+	{
+		StampMode = 'e';
+		goto readArgs;
+	}
+	if (argIs("/SE"))
+	{
+		StampMode = 'E';
 		goto readArgs;
 	}
 	if (argIs("/-S"))

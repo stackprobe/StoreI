@@ -32,6 +32,16 @@ namespace Charlotte.CSSolutions
 			this.FilePath = filePath;
 		}
 
+		public string GetSourceCode()
+		{
+			return File.ReadAllText(this.FilePath, Encoding.UTF8);
+		}
+
+		public void SetSourceCode(string sourceCode)
+		{
+			File.WriteAllText(this.FilePath, sourceCode, Encoding.UTF8);
+		}
+
 		public string 新しい名前空間;
 
 		public void Confuse(CSSolution sol)
@@ -119,10 +129,17 @@ public class ${class-name}
 		return ${instance-variable};
 	}
 
+	$$_CHAIN_FUNC_$$__0018__CheersToGimlet_{dcda66b1-416f-4419-a1e1-cd33513e3d37}
+
+	public static ${class-name} GetInstance__0019__CheersToGimlet() // for CHAIN_FUNC
+	{
+		return ${instance-getter}();
+	}
+
 "
 					.Replace("${class-name}", this.GetClassName())
-					.Replace("${instance-getter}", "GetInstance__0011__CheersToGimlet")  // ★名前が被ったら変える必要あり。
-					.Replace("${instance-variable}", "_instance__0011__CheersToGimlet"); // ★名前が被ったら変える必要あり。
+					.Replace("${instance-getter}", "GetInstance__0016__CheersToGimlet")  // ★名前が被ったら変える必要あり。
+					.Replace("${instance-variable}", "_instance__0016__CheersToGimlet"); // ★名前が被ったら変える必要あり。
 
 					break;
 				}

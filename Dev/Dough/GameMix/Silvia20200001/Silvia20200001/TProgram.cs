@@ -14,15 +14,15 @@ namespace Charlotte
 		{
 			if (ProcMain.DEBUG)
 			{
-				RunOnDebug();
+				Main3();
 			}
 			else
 			{
-				RunOnRelease();
+				Main4();
 			}
 		}
 
-		private static void RunOnDebug()
+		private static void Main3()
 		{
 			// テスト系 -- リリース版では使用しない。
 #if DEBUG
@@ -36,7 +36,7 @@ namespace Charlotte
 #endif
 		}
 
-		private static void RunOnRelease()
+		private static void Main4()
 		{
 			Logo.Run();
 		}

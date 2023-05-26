@@ -73,6 +73,8 @@
     <Compile Include="Tests\Test0014.cs" />
     <Compile Include="Tests\Test0015.cs" />
     <Compile Include="Tests\Test0016.cs" />
+    <Compile Include="Tests\Test0017.cs" />
+    <Compile Include="Tests\Test0018.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

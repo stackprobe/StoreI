@@ -57,7 +57,7 @@ namespace Charlotte.GameCommons
 			}
 			else
 			{
-				getter = resPath => File.ReadAllBytes(Path.Combine(@"..\..\..\..\Resource", resPath)); // $$_CheersToGimlet: throw new Exception("never pass through here");
+				getter = resPath => File.ReadAllBytes(Path.Combine(@"..\..\..\..\Resource", resPath)); // $$_CheersToGimlet: throw new Exception("no Resource.dat");
 			}
 			return getter;
 		}

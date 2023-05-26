@@ -43,6 +43,7 @@ namespace Charlotte.Games
 			{
 				"スタート",
 				"コンテニュー",
+				"おまけ",
 				"設定",
 				"終了",
 			});
@@ -73,10 +74,14 @@ namespace Charlotte.Games
 						break;
 
 					case 2:
-						Setting();
+						BonusMenu();
 						break;
 
 					case 3:
+						Setting();
+						break;
+
+					case 4:
 						goto endOfMenu;
 
 					default:
@@ -107,6 +112,56 @@ namespace Charlotte.Games
 			ADGame.Run();
 
 			Musics.RemotestLibrary.Play();
+		}
+
+		private static void BonusMenu()
+		{
+			SimpleMenu menu = new SimpleMenu(30, 40, 30, 320, "おまけメニュー", new string[]
+			{
+				"おまけ①",
+				"おまけ②",
+				"おまけ③",
+				"戻る",
+			});
+
+			for (; ; )
+			{
+				DD.FreezeInput();
+
+				for (; ; )
+				{
+					DrawWall();
+
+					if (menu.Draw())
+						break;
+
+					DD.EachFrame();
+				}
+				DD.FreezeInput();
+
+				switch (menu.SelectedIndex)
+				{
+					case 0:
+						SoundEffects.Save.Play();
+						break;
+
+					case 1:
+						SoundEffects.Load.Play();
+						break;
+
+					case 2:
+						SoundEffects.Buy.Play();
+						break;
+
+					case 3:
+						goto endOfMenu;
+
+					default:
+						throw null; // never
+				}
+			}
+		endOfMenu:
+			;
 		}
 
 		private static void Setting()

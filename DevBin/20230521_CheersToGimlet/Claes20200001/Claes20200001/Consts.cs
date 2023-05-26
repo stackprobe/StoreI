@@ -120,7 +120,7 @@ Carrol
 Casino
 CassisAndOrange
 CassisAndSoda
-celebration
+Celebration
 CentralPark
 Century
 Changuirongo
@@ -235,7 +235,7 @@ HotDram
 HotItalian
 HotKahluaAndMilk
 Hunter
-Icebraker
+Icebreaker
 IncredibleHulk
 IrishCarBomb
 IrishCoffee

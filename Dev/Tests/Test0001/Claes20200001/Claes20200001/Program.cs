@@ -54,19 +54,9 @@ namespace Charlotte
 		{
 			// -- choose one --
 
-			//new Test0001().Test01();
-			//new Test0001().Test02();
-			//new Test0002().Test01(); // オオバコ Tewi
-			//new Test0002().Test02(); // かんなにらせ
-			//new Test0003().Test01(); // dairi
-			//new Test0004().Test01(); // dairi 出力
-			//new Test0005().Test01(); // ぴぽや倉庫
-			//new Test0005().Test02(); // 点睛集積
-			//new Test0005().Test03();
-			//new Test0005().Test04(); // 小森平
-			//new Test0005().Test05();
-			//new Test0005().Test06();
-			new Test0006().Test01(); // StoreJ to StoreI
+			new Test0001().Test01();
+			//new Test0002().Test01();
+			//new Test0003().Test01();
 
 			// --
 		}

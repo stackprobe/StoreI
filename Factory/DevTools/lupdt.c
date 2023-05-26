@@ -66,11 +66,11 @@ static void ShowListMain(void)
 }
 int main(int argc, char **argv)
 {
-nextArg:
+readArgs:
 	if (argIs("/F"))
 	{
 		ShowFileMode = 1;
-		goto nextArg;
+		goto readArgs;
 	}
 	if (argIs("/L"))
 	{

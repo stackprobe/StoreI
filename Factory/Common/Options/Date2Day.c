@@ -148,7 +148,7 @@ uint GetEndOfMonth(uint y, uint m)
 char *Date2JWeekday(uint y, uint m, uint d)
 {
 #if 1
-	return getJWeekDay((Date2Day(y, m, d) + 1) % 7);
+	return getJWeekday((Date2Day(y, m, d) + 1) % 7);
 #else // same, old
 	char *weekdays[] =
 	{

@@ -104,9 +104,9 @@ namespace Charlotte.CSSolutions
 				else
 				{
 					file.新しい名前空間 = string.Format("Charlotte.Gattonero{0:D4}.Gattonero{1:D4}.Gattonero{2:D4}"
-						, index % 2 + 1
-						, index % 3 + 3
-						, index % 5 + 6
+						, index % 3 + 1
+						, index % 5 + 4
+						, index % 7 + 9
 						);
 				}
 			}
@@ -115,6 +115,59 @@ namespace Charlotte.CSSolutions
 			foreach (CSFile file in this.CSFiles)
 			{
 				file.Confuse(this);
+			}
+
+			// チェーン関数の作成
+			{
+				const string CHAIN_FUNC_PATTERN = "$$_CHAIN_FUNC_$$__0018__CheersToGimlet_{dcda66b1-416f-4419-a1e1-cd33513e3d37}";
+				const string INSTANCE_GETTER_FUNC_NAME = "GetInstance__0019__CheersToGimlet"; // ★名前が被ったら変える必要あり。
+
+				CSFile[] files = this.CSFiles.ToArray();
+				files = files.Where(file => file.GetSourceCode().Contains(CHAIN_FUNC_PATTERN)).ToArray();
+				Common.GeneralRandom.Shuffle(files);
+
+				for (int index = 0; index < files.Length; index++)
+				{
+					CSFile file = files[index];
+					string forwardClassName = files[(index + 1) % files.Length].GetClassName();
+					string sourceCode = file.GetSourceCode();
+
+					sourceCode = sourceCode.Replace(CHAIN_FUNC_PATTERN, @"
+
+public string ${chain-func-name}(string repairerOfFences)
+{
+	foreach (var info in new[]
+	{
+		new { A = ${random-I0101}, S = ""${random-S0101}"", U = new { B = ${random-I0102}, T = ""${random-S0102}"" } },
+		new { A = ${random-I0201}, S = ""${random-S0201}"", U = new { B = ${random-I0202}, T = ""${random-S0202}"" } },
+		new { A = ${random-I0301}, S = ""${random-S0301}"", U = new { B = ${random-I0302}, T = ""${random-S0302}"" } },
+	})
+	{
+		repairerOfFences += "", "" + ${forward-class-name}.${instance-getter-func-name}().${chain-func-name}(string.Join("", "", info.A, info.S, info.U.B, info.U.T));
+	}
+	return repairerOfFences;
+}
+
+"
+						.Replace("${forward-class-name}", forwardClassName)
+						.Replace("${instance-getter-func-name}", INSTANCE_GETTER_FUNC_NAME)
+						.Replace("${random-I0101}", Common.GeneralRandom.GetRange(10000000, 99999999).ToString())
+						.Replace("${random-I0102}", Common.GeneralRandom.GetRange(10000000, 99999999).ToString())
+						.Replace("${random-I0201}", Common.GeneralRandom.GetRange(10000000, 99999999).ToString())
+						.Replace("${random-I0202}", Common.GeneralRandom.GetRange(10000000, 99999999).ToString())
+						.Replace("${random-I0301}", Common.GeneralRandom.GetRange(10000000, 99999999).ToString())
+						.Replace("${random-I0302}", Common.GeneralRandom.GetRange(10000000, 99999999).ToString())
+						.Replace("${random-S0101}", SCommon.Base32.I.Encode(Common.GeneralRandom.GetBytes(5)))
+						.Replace("${random-S0102}", SCommon.Base32.I.Encode(Common.GeneralRandom.GetBytes(5)))
+						.Replace("${random-S0201}", SCommon.Base32.I.Encode(Common.GeneralRandom.GetBytes(5)))
+						.Replace("${random-S0202}", SCommon.Base32.I.Encode(Common.GeneralRandom.GetBytes(5)))
+						.Replace("${random-S0301}", SCommon.Base32.I.Encode(Common.GeneralRandom.GetBytes(5)))
+						.Replace("${random-S0302}", SCommon.Base32.I.Encode(Common.GeneralRandom.GetBytes(5)))
+						.Replace("${chain-func-name}", "DestroyerOfFences__0018__CheersToGimlet") // ★名前が被ったら変える必要あり。
+						);
+
+					file.SetSourceCode(sourceCode);
+				}
 			}
 		}
 

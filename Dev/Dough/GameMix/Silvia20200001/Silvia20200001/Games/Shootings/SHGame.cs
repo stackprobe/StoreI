@@ -12,6 +12,9 @@ using Charlotte.Games.Shootings.Shots;
 
 namespace Charlotte.Games.Shootings
 {
+	/// <summary>
+	/// ゲームメイン
+	/// </summary>
 	public class SHGame : IDisposable
 	{
 		public static SHGame I;
@@ -529,7 +532,7 @@ namespace Charlotte.Games.Shootings
 		{
 			SimpleMenu menu = new SimpleMenu(24, 30, 16, 400, "DEBUG", new string[]
  			{
-				"デバッグ強制遅延",
+				"強制遅延",
 				"当たり判定表示",
 				"ゲームに戻る",
 			});
@@ -548,9 +551,9 @@ namespace Charlotte.Games.Shootings
 				{
 					DD.DrawCurtain(1.0);
 					DD.DrawCurtain(-0.5);
-					DD.SetPrint(500, 40, 40);
+					DD.SetPrint(410, 10, 20);
 					DD.PrintLine("SlowdownLevel: " + DD.SlowdownLevel);
-					DD.PrintLine("当たり判定表示：右上のボタンで表示");
+					DD.PrintLine("当たり判定表示：Rボタンで表示");
 
 					if (menu.Draw())
 						break;
@@ -562,7 +565,7 @@ namespace Charlotte.Games.Shootings
 				switch (menu.SelectedIndex)
 				{
 					case 0:
-						DD.SlowdownLevel = (DD.SlowdownLevel + 1) % 8;
+						DD.SlowdownLevel = (DD.SlowdownLevel + 1) % 10;
 						break;
 
 					case 1:

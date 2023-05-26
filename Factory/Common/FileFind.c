@@ -438,11 +438,15 @@ static int IED_Action(struct _finddata_t *i)
 }
 int isEmptyDir(char *dir)
 {
-	char *wCard = combine(dir, WILDCARD);
-	IED_Found = 0;
-	fileSearch(wCard, IED_Action);
-	memFree(wCard);
-	return !IED_Found;
+	if (existDir(dir))
+	{
+		char *wCard = combine(dir, WILDCARD);
+		IED_Found = 0;
+		fileSearch(wCard, IED_Action);
+		memFree(wCard);
+		return !IED_Found;
+	}
+	return 0;
 }
 
 uint lsCount(char *dir)

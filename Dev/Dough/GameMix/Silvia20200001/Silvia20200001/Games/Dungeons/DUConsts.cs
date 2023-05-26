@@ -7,14 +7,6 @@ namespace Charlotte.Games.Dungeons
 {
 	public static class DUConsts
 	{
-		/// <summary>
-		/// 汎用・デフォルトの名前
-		/// </summary>
-		public const string NAME_DEFAULT = "Default";
-
-		/// <summary>
-		/// セーブデータ・スロット数
-		/// </summary>
-		public const int SAVE_DATA_SLOT_NUM = 14;
+		// none
 	}
 }

@@ -44,10 +44,51 @@ namespace Charlotte.GameCommons
 		/// 指定されたクラスの静的フィールドを初期化する。
 		/// </summary>
 		/// <param name="type">クラスのタイプ</param>
-		public static void InitializeStaticFields(Type type)
+		private static void InitializeStaticFields(Type type)
 		{
 			type.TypeInitializer.Invoke(null, null);
 		}
+
+		#region Touch
+
+		private static bool TouchCalled = false;
+
+		/// <summary>
+		/// 小さなリソースを程よくロードされた状態にする。
+		/// 幕間で適宜実行すると良い。
+		/// 備忘：スクリーンの画像は解放するけどスクリーン自体は解放しないので内容は失われないよ。
+		/// </summary>
+		public static void Touch()
+		{
+			if (!TouchCalled)
+			{
+				TouchCalled = true;
+
+				DU.InitializeStaticFields(typeof(Musics));
+				DU.InitializeStaticFields(typeof(Pictures));
+				DU.InitializeStaticFields(typeof(SoundEffects));
+			}
+
+			Music.Touch();
+			Picture.Touch();
+			SoundEffect.Touch();
+		}
+
+		/// <summary>
+		/// ロードされた全てのリソースを解放する。
+		/// 別に実行しなくても良い。
+		/// 注意：スクリーンの内容は失われる。
+		/// </summary>
+		public static void Detach()
+		{
+			Picture.UnloadAll();
+			VScreen.UnloadAll();
+			DU.UnloadAllFontHandle();
+			Music.UnloadAll();
+			SoundEffect.UnloadAll();
+		}
+
+		#endregion
 
 		public static void Pin<T>(T data)
 		{

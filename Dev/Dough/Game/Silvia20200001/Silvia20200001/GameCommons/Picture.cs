@@ -17,10 +17,18 @@ namespace Charlotte.GameCommons
 	{
 		private static DU.Collector<Picture> Instances = new DU.Collector<Picture>();
 
-		public static void TouchAll()
+		public static void Touch()
 		{
 			foreach (Picture instance in Instances.Iterate())
-				instance.GetHandle();
+			{
+				if (instance.SmallResourceFlag == null)
+					instance.SmallResourceFlag = instance.SmallResourceFlagGetter == null ? false : instance.SmallResourceFlagGetter();
+
+				if (instance.SmallResourceFlag.Value)
+					instance.GetHandle();
+				else
+					instance.Unload();
+			}
 		}
 
 		public static void UnloadAll()
@@ -28,6 +36,9 @@ namespace Charlotte.GameCommons
 			foreach (Picture instance in Instances.Iterate())
 				instance.Unload();
 		}
+
+		private bool? SmallResourceFlag = null;
+		private Func<bool> SmallResourceFlagGetter = null; // null == 無効
 
 		public class PictureDataInfo
 		{
@@ -47,7 +58,9 @@ namespace Charlotte.GameCommons
 		/// <param name="resPath">リソースのパス</param>
 		public Picture(string resPath)
 			: this(() => DD.GetResFileData(resPath))
-		{ }
+		{
+			this.SmallResourceFlagGetter = () => DD.GetResFileData(resPath).Length <= GameConfig.MaxSizeOfSmallResource;
+		}
 
 		/// <summary>
 		/// 画像データの取得メソッドから画像を作成する。

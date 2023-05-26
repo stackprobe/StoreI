@@ -37,7 +37,7 @@ static char *MakeDateField(void)
 
 	return xcout(
 		"%s, %u %s %04u %02u:%02u:%02u +0900"
-		,getEWeekDay(tmpsd.weekday)
+		,getEWeekday(tmpsd.weekday)
 		,tmpsd.day
 		,getEMonth(tmpsd.month)
 		,tmpsd.year

@@ -1,5 +1,12 @@
 /*
-	lss.exe [/D | /F] [/SVN] [/D+] [/-S] [/B] [/-U] [SEARCH-PTN | TARGET-DIR SEARCH-PTN...]
+	lss.exe [/D | /F] [/SVN] [/D+] [/-S] [/B] [/-U] [SEARCH-PTN...]
+
+	- - -
+
+	常にカレントDIRの配下を検索する。
+
+	検索パターンは中間一致
+	複数の検索パターンを指定した場合、中間一致をor結合する。
 */
 
 #include "C:\Factory\Common\all.h"
@@ -128,12 +135,5 @@ readArgs:
 		goto readArgs;
 	}
 
-	if (hasArgs(2))
-	{
-		DispList(getArg(0), getFollowArgs(1));
-	}
-	else
-	{
-		DispList(".", allArgs());
-	}
+	DispList(".", allArgs());
 }

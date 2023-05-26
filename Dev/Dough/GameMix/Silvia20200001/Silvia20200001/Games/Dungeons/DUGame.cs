@@ -28,7 +28,7 @@ namespace Charlotte.Games.Dungeons
 
 		public int X = 0;
 		public int Y = 0;
-		public int Direction = 8; // { 2, 4, 6, 8 } == { 南, 西, 東, 北 }
+		public int Direction = 8; // 4方向_テンキー方式
 
 		public void Run(DUField field)
 		{
@@ -183,7 +183,7 @@ namespace Charlotte.Games.Dungeons
 			}
 		}
 
-		private static VScreen DungeonView = new VScreen(790, 380);
+		private static VScreen DungeonView = new VScreen(790, 390);
 
 		/// <summary>
 		/// ダンジョン中のゲーム画面の描画を行う。
@@ -201,11 +201,13 @@ namespace Charlotte.Games.Dungeons
 
 			using (DungeonView.Section())
 			{
+				DD.DrawCurtain(1.0); // test
+
 				DD.Draw(
 					DUDungeonScreen.GetScreen().GetPicture(),
 					new D2Point(
 						DungeonView.W / 2.0 + xSlideRate * 90.0,
-						DungeonView.H / 2.0 - 80.0
+						DungeonView.H / 2.0 - 70.0
 						)
 					);
 			}

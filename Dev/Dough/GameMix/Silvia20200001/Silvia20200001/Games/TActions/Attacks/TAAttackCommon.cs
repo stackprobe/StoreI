@@ -66,20 +66,20 @@ namespace Charlotte.Games.TActions.Attacks
 
 			switch (dir)
 			{
-				case 8:
-					TAGame.I.Player.Y -= speed;
-					break;
-
-				case 2:
-					TAGame.I.Player.Y += speed;
-					break;
-
 				case 4:
 					TAGame.I.Player.X -= speed;
 					break;
 
 				case 6:
 					TAGame.I.Player.X += speed;
+					break;
+
+				case 8:
+					TAGame.I.Player.Y -= speed;
+					break;
+
+				case 2:
+					TAGame.I.Player.Y += speed;
 					break;
 
 				case 1:

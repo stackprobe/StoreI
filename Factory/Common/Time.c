@@ -21,10 +21,10 @@ static char *MonthList[] = {
 	"May", "Jun", "Jul", "Aug",
 	"Sep", "Oct", "Nov", "Dec",
 };
-static char *WeekDayList[] = {
+static char *EWeekdayList[] = {
 	"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
 };
-static char *JWeekDayList[] = {
+static char *JWeekdayList[] = {
 	"ì˙", "åé", "âŒ", "êÖ", "ñÿ", "ã‡", "ìy",
 };
 
@@ -33,14 +33,14 @@ char *getEMonth(uint month)
 	if (1 <= month && month <= 12) return MonthList[month - 1];
 	return "???";
 }
-char *getEWeekDay(uint weekday)
+char *getEWeekday(uint weekday)
 {
-	if (weekday <= 6) return WeekDayList[weekday];
+	if (weekday <= 6) return EWeekdayList[weekday];
 	return "???";
 }
-char *getJWeekDay(uint weekday)
+char *getJWeekday(uint weekday)
 {
-	if (weekday <= 6) return JWeekDayList[weekday];
+	if (weekday <= 6) return JWeekdayList[weekday];
 	return "ÅH";
 }
 
@@ -88,7 +88,7 @@ static void UpdateStampData(char *stamp)
 	i->year = toValue(stamp + 20);
 	i->month = findLine(gndAutoListVar((uint *)MonthList, lengthof(MonthList), tmplist), stamp + 4) + 1;
 	i->day = toValue(stamp + 8);
-	i->weekday = findLine(gndAutoListVar((uint *)WeekDayList, lengthof(WeekDayList), tmplist), stamp);
+	i->weekday = findLine(gndAutoListVar((uint *)EWeekdayList, lengthof(EWeekdayList), tmplist), stamp);
 	i->hour = toValue(stamp + 11);
 	i->minute = toValue(stamp + 14);
 	i->second = toValue(stamp + 17);
@@ -126,7 +126,7 @@ int isAllowStampData(stampData_t *i)
 		   0 <= i->second  && i->second  <=   59;
 }
 
-char *makeJStamp(stampData_t *i, int nonWeekDay)
+static char *Prv_MakeJStamp(stampData_t *i, int nonWeekday, char *weekdayList[])
 {
 	char *stamp;
 
@@ -141,19 +141,28 @@ char *makeJStamp(stampData_t *i, int nonWeekDay)
 		i->year,
 		i->month,
 		i->day,
-		JWeekDayList[i->weekday],
+		weekdayList[i->weekday],
 		i->hour,
 		i->minute,
 		i->second
 		);
 
 	// "1980/01/02 (êÖ) 02:03:55"
+	// "1980/01/02 (Wed) 02:03:55"
 
-	if (nonWeekDay)
+	if (nonWeekday)
 	{
-		eraseLine(stamp + 11, 5); // "1980/01/02 02:03:55"
+		eraseLine(stamp + 11, 5); // "1980/01/02 (êÖ) 02:03:55" -> "1980/01/02 02:03:55"
 	}
 	return stamp;
+}
+char *makeJStamp(stampData_t *i, int nonWeekday)
+{
+	return Prv_MakeJStamp(i, nonWeekday, JWeekdayList);
+}
+char *makeJStampEWeekday(stampData_t *i)
+{
+	return Prv_MakeJStamp(i, 0, EWeekdayList);
 }
 char *makeCompactStamp(stampData_t *i)
 {
@@ -232,11 +241,11 @@ char *c_makeStamp(time_t t)
 	memFree(stock);
 	return stock = makeStamp(t);
 }
-char *c_makeJStamp(stampData_t *i, int nonWeekDay)
+char *c_makeJStamp(stampData_t *i, int nonWeekday)
 {
 	static char *stock;
 	memFree(stock);
-	return stock = makeJStamp(i, nonWeekDay);
+	return stock = makeJStamp(i, nonWeekday);
 }
 char *c_makeCompactStamp(stampData_t *i)
 {

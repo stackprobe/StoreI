@@ -14,7 +14,7 @@ namespace Charlotte.Games
 		public static void Run()
 		{
 			DD.SetLibbon("ロードしています...");
-			Touch();
+			DU.Touch();
 			DD.SetLibbon(null);
 
 			while (LibbonDialog.ShowingFlag)
@@ -87,27 +87,7 @@ namespace Charlotte.Games
 				DD.EachFrame();
 			}
 			TitleMenu.Run();
-			Detach();
-		}
-
-		private static void Touch()
-		{
-			DU.InitializeStaticFields(typeof(Musics));
-			DU.InitializeStaticFields(typeof(Pictures));
-			DU.InitializeStaticFields(typeof(SoundEffects));
-
-			Music.TouchAll();
-			Picture.TouchAll();
-			SoundEffect.TouchAll();
-		}
-
-		private static void Detach() // 解放できるものを解放してみる。これは実行しなくても良い。
-		{
-			Picture.UnloadAll();
-			VScreen.UnloadAll();
-			DU.UnloadAllFontHandle();
-			Music.UnloadAll();
-			SoundEffect.UnloadAll();
+			DU.Detach();
 		}
 	}
 }

@@ -11,8 +11,8 @@ typedef struct stampData_st
 stampData_t;
 
 char *getEMonth(uint month);
-char *getEWeekDay(uint weekday);
-char *getJWeekDay(uint weekday);
+char *getEWeekday(uint weekday);
+char *getJWeekday(uint weekday);
 
 char *makeStamp(time_t t);
 
@@ -21,7 +21,8 @@ stampData_t *getStampDataTime(time_t t);
 
 int isAllowStampData(stampData_t *i);
 
-char *makeJStamp(stampData_t *i, int nonWeekDay);
+char *makeJStamp(stampData_t *i, int nonWeekday);
+char *makeJStampEWeekday(stampData_t *i);
 char *makeCompactStamp(stampData_t *i);
 time_t stampDataToTime(stampData_t *i);
 time_t compactStampToTime(char *stamp);
@@ -31,5 +32,5 @@ time_t compactStampToTime_x(char *stamp);
 
 // c_
 char *c_makeStamp(time_t t);
-char *c_makeJStamp(stampData_t *i, int nonWeekDay);
+char *c_makeJStamp(stampData_t *i, int nonWeekday);
 char *c_makeCompactStamp(stampData_t *i);

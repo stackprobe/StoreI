@@ -10,7 +10,7 @@ namespace Charlotte.Games.Shootings
 {
 	/// <summary>
 	/// プレイヤーに関する情報と機能
-	/// 唯一のインスタンスを Game.I.Player に保持する。
+	/// 唯一のインスタンスをゲームメインに保持する。
 	/// </summary>
 	public class SHPlayer
 	{

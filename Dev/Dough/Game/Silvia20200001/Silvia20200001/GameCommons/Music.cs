@@ -17,10 +17,18 @@ namespace Charlotte.GameCommons
 	{
 		private static DU.Collector<Music> Instances = new DU.Collector<Music>();
 
-		public static void TouchAll()
+		public static void Touch()
 		{
 			foreach (Music instance in Instances.Iterate())
-				instance.GetHandle();
+			{
+				if (instance.SmallResourceFlag == null)
+					instance.SmallResourceFlag = instance.FileDataGetter().Length <= GameConfig.MaxSizeOfSmallResource;
+
+				if (instance.SmallResourceFlag.Value)
+					instance.GetHandle();
+				else
+					instance.Unload();
+			}
 		}
 
 		public static void UnloadAll()
@@ -28,6 +36,8 @@ namespace Charlotte.GameCommons
 			foreach (Music instance in Instances.Iterate())
 				instance.Unload();
 		}
+
+		private bool? SmallResourceFlag = null;
 
 		private Func<byte[]> FileDataGetter;
 		private Action<Music> PostLoaded = instance => { };

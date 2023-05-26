@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Charlotte.Commons;
 using Charlotte.Drawings;
+using Charlotte.GameCommons;
 
 namespace Charlotte.Games.TActions.Fields
 {
@@ -13,6 +14,13 @@ namespace Charlotte.Games.TActions.Fields
 	// -- 全体を「マップ」または「テーブル」、個々のマス目を「タイル」と呼ぶ。
 	// ドット単位の座標で見たとき
 	// -- 全体を「フィールド」と呼ぶ。
+
+	// memo:
+	// 用語集：
+	// 4方向_テンキー方式      -- { 2, 4, 6, 8 } の値をとり、それぞれ { 下, 左, 右, 上 } を意味する。
+	// 4方向+0vec_テンキー方式 -- { 2, 4, 5, 6, 8 } の値をとり、それぞれ { 下, 左, 0vec(零ベクトル), 右, 上 } を意味する。
+	// 8方向_テンキー方式      -- { 1, 2, 3, 4, 6, 7, 8, 9 } の値をとり、それぞれ { 左下, 下, 右下, 左, 右, 左上, 上, 右上 } を意味する。
+	// 8方向+0vec_テンキー方式 -- { 1, 2, 3, 4, 5, 6, 7, 8, 9 } の値をとり、それぞれ { 左下, 下, 右下, 左, 0vec(零ベクトル), 右, 左上, 上, 右上 } を意味する。
 
 	/// <summary>
 	/// フィールド

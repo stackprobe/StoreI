@@ -17,10 +17,18 @@ namespace Charlotte.GameCommons
 	{
 		private static DU.Collector<SoundEffect> Instances = new DU.Collector<SoundEffect>();
 
-		public static void TouchAll()
+		public static void Touch()
 		{
 			foreach (SoundEffect instance in Instances.Iterate())
-				instance.LoadIfNeeded();
+			{
+				if (instance.SmallResourceFlag == null)
+					instance.SmallResourceFlag = instance.FileDataGetter().Length <= GameConfig.MaxSizeOfSmallResource;
+
+				if (instance.SmallResourceFlag.Value)
+					instance.LoadIfNeeded();
+				else
+					instance.Unload();
+			}
 		}
 
 		public static void UnloadAll()
@@ -28,6 +36,8 @@ namespace Charlotte.GameCommons
 			foreach (SoundEffect instance in Instances.Iterate())
 				instance.Unload();
 		}
+
+		private bool? SmallResourceFlag = null;
 
 		private Func<byte[]> FileDataGetter;
 

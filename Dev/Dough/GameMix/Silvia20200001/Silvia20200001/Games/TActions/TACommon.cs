@@ -79,7 +79,7 @@ namespace Charlotte.Games.TActions
 
 		/// <summary>
 		/// 方向転換する。
-		/// 方向：8方向+中央_テンキー方式 -- { 1, 2, 3, 4, 5, 6, 7, 8, 9 } == { 左下, 下, 右下, 左, 中央(零ベクトル), 右, 左上, 上, 右上 }
+		/// 方向：8方向+0vec_テンキー方式
 		/// </summary>
 		/// <param name="direction">回転前の方向</param>
 		/// <param name="count">回転する回数(1回につき時計回りに45度回転する,負の値=反時計回り)</param>
@@ -110,10 +110,10 @@ namespace Charlotte.Games.TActions
 
 			switch (direction)
 			{
-				case 8: return new D2Point(0.0, -speed);
-				case 2: return new D2Point(0.0, speed);
 				case 4: return new D2Point(-speed, 0.0);
 				case 6: return new D2Point(speed, 0.0);
+				case 8: return new D2Point(0.0, -speed);
+				case 2: return new D2Point(0.0, speed);
 
 				case 1: return new D2Point(-nanameSpeed, nanameSpeed);
 				case 3: return new D2Point(nanameSpeed, nanameSpeed);

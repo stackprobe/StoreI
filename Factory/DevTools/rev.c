@@ -129,7 +129,7 @@ int main(int argc, char **argv)
 			,sd->year
 			,sd->month
 			,sd->day
-			,getJWeekDay(sd->weekday)
+			,getJWeekday(sd->weekday)
 			,sd->hour
 			,sd->minute
 			,sd->second

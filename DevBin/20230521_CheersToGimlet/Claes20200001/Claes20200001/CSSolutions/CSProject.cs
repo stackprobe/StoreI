@@ -33,26 +33,52 @@ namespace Charlotte.CSSolutions
 		public void Confuse(CSSolution sol)
 		{
 			List<string> files = new List<string>();
-			string classesDir = Path.Combine(this.Dir, "_Classes__0012__CheersToGimlet"); // ★名前が被ったら変える必要あり。
+			string classesDir = Path.Combine(this.Dir, "_Classes__9901__CheersToGimlet"); // ★名前が被ったら変える必要あり。
 
 			SCommon.CreateDir(classesDir);
 
-			foreach (string identifier in Consts.IDENTIFIERS)
+			if (SCommon.HasSame(Consts.IDENTIFIERS, (a, b) => SCommon.EqualsIgnoreCase(a, b)))
+				throw new Exception("FATAL: 内部リソース・識別子の重複");
+
+			foreach (string f_identifier in Consts.IDENTIFIERS)
 			{
-				if (sol.CSFiles.Any(v => SCommon.EqualsIgnoreCase(v.GetClassName(), identifier))) // ? 既に存在するクラス名 -> 除外
-					continue;
+				string identifier = f_identifier;
+
+				while (sol.CSFiles.Any(v => SCommon.EqualsIgnoreCase(v.GetClassName(), identifier))) // ? 既に存在するクラス名と被る -> 回避
+					identifier += "_";
 
 				string file = Path.Combine(classesDir, identifier + ".cs");
 
+				// NOTE:
+				// クラス名が標準クラスなどと被ってしまった場合を想定して、
+				// せめてビルドエラーになって検出できるように、メンバ名は被りそうにない名前にする。コンストラクタも隠蔽する。
+				//
 				File.WriteAllText(file, @"
 
 namespace Charlotte
 {
 	public class ${identifier}
 	{
-		public string Get${identifier}__0013__CheersToGimlet()
+		public static System.Lazy<${identifier}> Instance__0017__CheersToGimlet = new System.Lazy<${identifier}>(() => Create${identifier}__0017__CheersToGimlet());
+
+		private static ${identifier} Create${identifier}__0017__CheersToGimlet()
+		{
+			System.Func<${identifier}> creator = () => new ${identifier}(); return creator(); // return new ${identifier}();
+		}
+
+		private ${identifier}()
+		{ }
+
+		public string Get${identifier}__0017__CheersToGimlet()
 		{
 			return ""${identifier}"";
+		}
+
+		$$_CHAIN_FUNC_$$__0018__CheersToGimlet_{dcda66b1-416f-4419-a1e1-cd33513e3d37}
+
+		public static ${identifier} GetInstance__0019__CheersToGimlet() // for CHAIN_FUNC
+		{
+			return Instance__0017__CheersToGimlet.Value;
 		}
 	}
 }
@@ -96,7 +122,7 @@ namespace Charlotte
 			this.CompileTagsFilter(list =>
 			{
 				this.CollectSourceFiles(list, classesDir, sol.CSFiles.ToArray());
-				new RandomUnit(new Common.Random6401()).Shuffle(list);
+				Common.GeneralRandom.Shuffle(list);
 				return list;
 			});
 		}
