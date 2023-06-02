@@ -9,21 +9,9 @@ using Charlotte.Games.SActions.Fields;
 
 namespace Charlotte.Games.SActions
 {
-	public class SAGameMaster : IDisposable
+	public static class SAGameMaster
 	{
-		public static SAGameMaster I;
-
-		public SAGameMaster()
-		{
-			I = this;
-		}
-
-		public void Dispose()
-		{
-			I = null;
-		}
-
-		public void Run(SAField field)
+		public static void Run(SAField field)
 		{
 			using (new SAGame())
 			{

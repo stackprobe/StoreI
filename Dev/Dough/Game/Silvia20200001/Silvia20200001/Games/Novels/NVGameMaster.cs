@@ -9,21 +9,9 @@ using Charlotte.Games.Novels.Scenarios;
 
 namespace Charlotte.Games.Novels
 {
-	public class NVGameMaster : IDisposable
+	public static class NVGameMaster
 	{
-		public static NVGameMaster I;
-
-		public NVGameMaster()
-		{
-			I = this;
-		}
-
-		public void Dispose()
-		{
-			I = null;
-		}
-
-		public void Run()
+		public static void Run()
 		{
 			int choosedIndex;
 			NVScenario scenario;

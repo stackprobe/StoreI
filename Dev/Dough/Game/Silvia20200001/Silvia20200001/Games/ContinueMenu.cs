@@ -5,7 +5,6 @@ using System.Text;
 using Charlotte.Commons;
 using Charlotte.Drawings;
 using Charlotte.GameCommons;
-using Charlotte.Games.Adventures;
 using Charlotte.Games.Dungeons;
 using Charlotte.Games.Novels;
 using Charlotte.Games.SActions;
@@ -13,6 +12,7 @@ using Charlotte.Games.SActions.Fields;
 using Charlotte.Games.Shootings;
 using Charlotte.Games.TActions;
 using Charlotte.Games.TActions.Fields;
+using Charlotte.Games.Adventures;
 
 namespace Charlotte.Games
 {
@@ -20,9 +20,9 @@ namespace Charlotte.Games
 	{
 		public static void Run()
 		{
-			SimpleMenu menu = new SimpleMenu(20, 30, 13, 350, "ADGame", new string[]
+			SimpleMenu menu = new SimpleMenu(20, 30, 13, 350, "TEST-MENU", new string[]
  			{
-				"Adventures.ADGameMaster",
+				"Adventures.Adventure",
 				"Dungeons.DUGameMaster",
 				"Novels.NVGameMaster",
 				"SAction.SAGameMaster.1",
@@ -59,94 +59,55 @@ namespace Charlotte.Games
 				switch (menu.SelectedIndex)
 				{
 					case 0:
-						using (new ADGameMaster())
-						{
-							ADGameMaster.I.Run();
-						}
+						Adventure.Run();
 						break;
 
 					case 1:
-						using (new DUGameMaster())
-						{
-							DUGameMaster.I.Run();
-						}
+						DUGameMaster.Run();
 						break;
 
 					case 2:
-						using (new NVGameMaster())
-						{
-							NVGameMaster.I.Run();
-						}
+						NVGameMaster.Run();
 						break;
 
 					case 3:
-						using (new SAGameMaster())
-						{
-							SAGameMaster.I.Run(SAField_Test0001.Create(0));
-						}
+						SAGameMaster.Run(SAField_Test0001.Create(0));
 						break;
 
 					case 4:
-						using (new SAGameMaster())
-						{
-							SAGameMaster.I.Run(SAField_Test0001.Create(1));
-						}
+						SAGameMaster.Run(SAField_Test0001.Create(1));
 						break;
 
 					case 5:
-						using (new SAGameMaster())
-						{
-							SAGameMaster.I.Run(SAField_Test0001.Create(2));
-						}
+						SAGameMaster.Run(SAField_Test0001.Create(2));
 						break;
 
 					case 6:
-						using (new SAGameMaster())
-						{
-							SAGameMaster.I.Run(SAField_Test0001.Create(3));
-						}
+						SAGameMaster.Run(SAField_Test0001.Create(3));
 						break;
 
 					case 7:
-						using (new SAGameMaster())
-						{
-							SAGameMaster.I.Run(SAField_Test0001.Create(4));
-						}
+						SAGameMaster.Run(SAField_Test0001.Create(4));
 						break;
 
 					case 8:
-						using (new SHGameMaster())
-						{
-							SHGameMaster.I.Run();
-						}
+						SHGameMaster.Run();
 						break;
 
 					case 9:
-						using (new TAGameMaster())
-						{
-							TAGameMaster.I.Run(TAField_Test0001.Create(0));
-						}
+						TAGameMaster.Run(TAField_Test0001.Create(0));
 						break;
 
 					case 10:
-						using (new TAGameMaster())
-						{
-							TAGameMaster.I.Run(TAField_Test0001.Create(1));
-						}
+						TAGameMaster.Run(TAField_Test0001.Create(1));
 						break;
 
 					case 11:
-						using (new TAGameMaster())
-						{
-							TAGameMaster.I.Run(TAField_Test0001.Create(2));
-						}
+						TAGameMaster.Run(TAField_Test0001.Create(2));
 						break;
 
 					case 12:
-						using (new TAGameMaster())
-						{
-							TAGameMaster.I.Run(TAField_Test0001.Create(3));
-						}
+						TAGameMaster.Run(TAField_Test0001.Create(3));
 						break;
 
 					case 13:

@@ -9,21 +9,9 @@ using Charlotte.Games.Dungeons.Fields;
 
 namespace Charlotte.Games.Dungeons
 {
-	public class DUGameMaster : IDisposable
+	public static class DUGameMaster
 	{
-		public static DUGameMaster I;
-
-		public DUGameMaster()
-		{
-			I = this;
-		}
-
-		public void Dispose()
-		{
-			I = null;
-		}
-
-		public void Run()
+		public static void Run()
 		{
 			using (new DUGame())
 			{

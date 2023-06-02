@@ -69,13 +69,6 @@ namespace Charlotte.Games.TActions
 			DD.SetCurtain(-1.0, 0);
 			DD.SetCurtain(0.0, 10);
 
-			// memo: 入力抑止
-			// -- DD.FreezeInput
-			// -- DD.FreezeInputUntilRelease
-			// -- DD.UnfreezeInputUntilRelease
-			// -- Inputs.XXX.FreezeInputUntilRelease
-			// -- Inputs.XXX.UnfreezeInputUntilRelease
-
 			DD.FreezeInput();
 
 			for (this.Frame = 0; ; this.Frame++)
@@ -407,7 +400,7 @@ namespace Charlotte.Games.TActions
 				{
 					// 最後に描画されるようにエフェクトとして追加する。
 
-					DD.EL.Add(() =>
+					DD.EL.Add(DD.Once(() =>
 					{
 						DD.DrawCurtain(-0.8);
 
@@ -420,9 +413,7 @@ namespace Charlotte.Games.TActions
 
 						foreach (TAShot shot in this.Shots)
 							shot.Crash.Draw(new I3Color(0, 255, 255).ToD3Color().WithAlpha(ALPHA), this.Camera.ToD2Point());
-
-						return false; // 1回で良い。
-					});
+					}));
 				}
 
 				// ====

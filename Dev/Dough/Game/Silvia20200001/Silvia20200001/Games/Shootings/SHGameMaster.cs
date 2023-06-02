@@ -9,21 +9,9 @@ using Charlotte.Games.Shootings.Scenarios;
 
 namespace Charlotte.Games.Shootings
 {
-	public class SHGameMaster : IDisposable
+	public static class SHGameMaster
 	{
-		public static SHGameMaster I;
-
-		public SHGameMaster()
-		{
-			I = this;
-		}
-
-		public void Dispose()
-		{
-			I = null;
-		}
-
-		public void Run()
+		public static void Run()
 		{
 			using (new SHGame())
 			{

@@ -102,10 +102,7 @@ namespace Charlotte.Games
 
 		private static void StartTheGame()
 		{
-			using (new ADGameMaster())
-			{
-				ADGameMaster.I.Run();
-			}
+			Adventure.Run();
 
 			Musics.RemotestLibrary.Play();
 		}

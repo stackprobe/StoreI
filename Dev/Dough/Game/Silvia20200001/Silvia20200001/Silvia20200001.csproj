@@ -96,13 +96,7 @@
     <Compile Include="GameCommons\ResourceCluster.cs" />
     <Compile Include="GameCommons\VScreen.cs" />
     <Compile Include="GameSetting.cs" />
-    <Compile Include="Games\Adventures\ADGame.cs" />
-    <Compile Include="Games\Adventures\ADGameMaster.cs" />
-    <Compile Include="Games\Adventures\Rooms\ADRoom.cs" />
-    <Compile Include="Games\Adventures\Rooms\ADRoomCommon.cs" />
-    <Compile Include="Games\Adventures\Rooms\ADRoom_Test0001.cs" />
-    <Compile Include="Games\Adventures\Rooms\ADRoom_Test0002.cs" />
-    <Compile Include="Games\Adventures\Rooms\ADRoom_Test0003.cs" />
+    <Compile Include="Games\Adventures\Adventure.cs" />
     <Compile Include="Games\ContinueMenu.cs" />
     <Compile Include="Games\Dungeons\DUCommon.cs" />
     <Compile Include="Games\Dungeons\DUConsts.cs" />

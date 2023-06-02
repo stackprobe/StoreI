@@ -17,12 +17,6 @@ namespace Charlotte
 		public static Picture KAZUKIcghvbnkm = new Picture(@"Picture\ぱくたそ\KAZUKIcghvbnkm.png");
 		public static Picture KAZ7842_gyftdrhfyg = new Picture(@"Picture\ぱくたそ\KAZ7842_gyftdrhfyg.png");
 
-		public static Picture AigAi230105750 = new Picture(@"Picture\ぱくたそ\aig-ai230105750.png");
-		public static Picture AigAi230105751 = new Picture(@"Picture\ぱくたそ\aig-ai230105751.png");
-		public static Picture AigAi230105752 = new Picture(@"Picture\ぱくたそ\aig-ai230105752.png");
-
-		public static Picture ふきだし = new Picture(@"Picture\フキダシデザイン\e1086.png");
-
 		public static Picture DungeonBackground = new Picture(@"Handmade\Dungeon\Background0001.png");
 		public static Picture DungeonGate = new Picture(@"Handmade\Dungeon\Gate0001.png");
 		public static Picture DungeonWall = new Picture(@"Handmade\Dungeon\Wall0001.png");

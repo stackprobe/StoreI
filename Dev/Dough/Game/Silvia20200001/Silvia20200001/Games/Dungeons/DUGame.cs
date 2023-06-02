@@ -38,13 +38,6 @@ namespace Charlotte.Games.Dungeons
 			DD.SetCurtain(-1.0, 0);
 			DD.SetCurtain(0.0);
 
-			// memo: 入力抑止
-			// -- DD.FreezeInput
-			// -- DD.FreezeInputUntilRelease
-			// -- DD.UnfreezeInputUntilRelease
-			// -- Inputs.XXX.FreezeInputUntilRelease
-			// -- Inputs.XXX.UnfreezeInputUntilRelease
-
 			int lastX = -1;
 			int lastY = -1;
 			int lastDirection = -1;
@@ -68,11 +61,8 @@ namespace Charlotte.Games.Dungeons
 					lastDirection = this.Direction;
 				}
 
-				// 暫定 -- ★要削除
-				{
-					if (Inputs.PAUSE.GetInput() == 1)
-						break;
-				}
+				if (Inputs.PAUSE.GetInput() == 1) // 暫定
+					break;
 
 				if (1 <= Inputs.DIR_8.GetInput()) // 前進
 				{

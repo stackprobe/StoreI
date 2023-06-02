@@ -50,13 +50,6 @@ namespace Charlotte.Games.Novels
 			this.Scenario = scenario;
 			this.Pages = this.GetPages();
 
-			// memo: 入力抑止
-			// -- DD.FreezeInput
-			// -- DD.FreezeInputUntilRelease
-			// -- DD.UnfreezeInputUntilRelease
-			// -- Inputs.XXX.FreezeInputUntilRelease
-			// -- Inputs.XXX.UnfreezeInputUntilRelease
-
 			DD.FreezeInputUntilRelease();
 
 			for (this.PageIndex = 0; this.PageIndex < this.Pages.Length; this.PageIndex++)

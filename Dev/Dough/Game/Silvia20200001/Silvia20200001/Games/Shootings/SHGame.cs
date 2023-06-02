@@ -63,13 +63,6 @@ namespace Charlotte.Games.Shootings
 			DD.SetCurtain(-1.0, 0);
 			DD.SetCurtain(0.0, 20);
 
-			// memo: 入力抑止
-			// -- DD.FreezeInput
-			// -- DD.FreezeInputUntilRelease
-			// -- DD.UnfreezeInputUntilRelease
-			// -- Inputs.XXX.FreezeInputUntilRelease
-			// -- Inputs.XXX.UnfreezeInputUntilRelease
-
 			DD.FreezeInput();
 
 			for (this.Frame = 0; ; this.Frame++)

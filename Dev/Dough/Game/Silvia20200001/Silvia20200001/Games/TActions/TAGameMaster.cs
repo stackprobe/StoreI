@@ -9,21 +9,9 @@ using Charlotte.Games.TActions.Fields;
 
 namespace Charlotte.Games.TActions
 {
-	public class TAGameMaster : IDisposable
+	public static class TAGameMaster
 	{
-		public static TAGameMaster I;
-
-		public TAGameMaster()
-		{
-			I = this;
-		}
-
-		public void Dispose()
-		{
-			I = null;
-		}
-
-		public void Run(TAField field)
+		public static void Run(TAField field)
 		{
 			using (new TAGame())
 			{

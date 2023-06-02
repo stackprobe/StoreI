@@ -8,20 +8,21 @@ using Charlotte.GameCommons;
 
 namespace Charlotte.Games.Adventures.Rooms
 {
-	public class ADRoom_Test0002 : ADRoom
+	public class ADRoom_Test0001 : ADRoom
 	{
 		public override ADRoom DefaultActionAndGetNextRoom()
 		{
-			return new ADRoom_Test0003();
+			return new ADRoom_Test0002();
 		}
 
 		protected override IEnumerable<bool> E_Draw()
 		{
-			Musics.SunBeams.Play();
+			Musics.RemotestLibrary.Play();
 
 			for (; ; )
 			{
-				DD.Draw(Pictures.AigAi230105751, new I2Point(GameConfig.ScreenSize.W / 2, GameConfig.ScreenSize.H / 2).ToD2Point());
+				DD.Draw(Pictures.AigAi230105750, new I2Point(GameConfig.ScreenSize.W / 2, GameConfig.ScreenSize.H / 2).ToD2Point()
+					+ new D2Point(ADGame.I.SlideX * 20.0, ADGame.I.SlideY * 65.0));
 
 				yield return true;
 			}

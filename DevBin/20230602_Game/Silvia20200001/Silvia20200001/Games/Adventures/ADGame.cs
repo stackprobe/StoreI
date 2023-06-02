@@ -26,6 +26,11 @@ namespace Charlotte.Games.Adventures
 		public ADRoom Room;
 		public bool ReturnToCallerRequested = false;
 
+		public int DestSlideX = 0; // { -1, 0, 1 }
+		public int DestSlideY = 0; // { -1, 0, 1 }
+		public double SlideX = 0; // -1.0 ～ 1.0
+		public double SlideY = 0; // -1.0 ～ 1.0
+
 		/// <summary>
 		/// 次の部屋
 		/// ゲームメイン処理を終了する前にセットされる。
@@ -60,6 +65,33 @@ namespace Charlotte.Games.Adventures
 					this.NextRoom = this.Room.DefaultActionAndGetNextRoom();
 					break;
 				}
+				if (Inputs.DIR_4.GetInput() == 1)
+				{
+					this.DestSlideX += 2;
+					this.DestSlideX %= 3;
+					this.DestSlideX--;
+				}
+				if (Inputs.DIR_6.GetInput() == 1)
+				{
+					this.DestSlideX += 3;
+					this.DestSlideX %= 3;
+					this.DestSlideX--;
+				}
+				if (Inputs.DIR_8.GetInput() == 1)
+				{
+					this.DestSlideY += 2;
+					this.DestSlideY %= 3;
+					this.DestSlideY--;
+				}
+				if (Inputs.DIR_2.GetInput() == 1)
+				{
+					this.DestSlideY += 3;
+					this.DestSlideY %= 3;
+					this.DestSlideY--;
+				}
+				DD.Approach(ref this.SlideX, (double)this.DestSlideX, 0.93);
+				DD.Approach(ref this.SlideY, (double)this.DestSlideY, 0.93);
+
 				this.Room.Draw();
 
 				DD.SetPrint(20, 20, 0);

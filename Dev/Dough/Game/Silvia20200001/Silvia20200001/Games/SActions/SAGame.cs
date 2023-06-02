@@ -69,13 +69,6 @@ namespace Charlotte.Games.SActions
 			DD.SetCurtain(-1.0, 0);
 			DD.SetCurtain(0.0);
 
-			// memo: 入力抑止
-			// -- DD.FreezeInput
-			// -- DD.FreezeInputUntilRelease
-			// -- DD.UnfreezeInputUntilRelease
-			// -- Inputs.XXX.FreezeInputUntilRelease
-			// -- Inputs.XXX.UnfreezeInputUntilRelease
-
 			Inputs.A.FreezeInputUntilRelease();
 			Inputs.B.FreezeInputUntilRelease();
 			Inputs.C.FreezeInputUntilRelease();
@@ -636,7 +629,7 @@ namespace Charlotte.Games.SActions
 				{
 					// 最後に描画されるようにエフェクトとして追加する。
 
-					DD.EL.Add(() =>
+					DD.EL.Add(DD.Once(() =>
 					{
 						DD.DrawCurtain(-0.7);
 
@@ -689,9 +682,7 @@ namespace Charlotte.Games.SActions
 
 						foreach (SAShot shot in this.Shots)
 							shot.Crash.Draw(new I3Color(0, 255, 255).ToD3Color().WithAlpha(ALPHA), this.Camera.ToD2Point());
-
-						return false; // 1回で良い。
-					});
+					}));
 				}
 
 				// ====
