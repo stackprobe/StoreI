@@ -35,9 +35,9 @@ namespace Charlotte.GameCommons
 			LibbonDialog.SetMessage(message);
 		}
 
-		private static Func<string, byte[]> ResFileDataGetter = null;
+		private static Func<string, DU.LzData> ResFileDataGetter = null;
 
-		public static byte[] GetResFileData(string resPath)
+		public static DU.LzData GetResFileData(string resPath)
 		{
 			if (ResFileDataGetter == null)
 				ResFileDataGetter = GetResFileDataGetter();
@@ -45,10 +45,10 @@ namespace Charlotte.GameCommons
 			return ResFileDataGetter(resPath);
 		}
 
-		private static Func<string, byte[]> GetResFileDataGetter()
+		private static Func<string, DU.LzData> GetResFileDataGetter()
 		{
 			string clusterFile = Path.Combine(ProcMain.SelfDir, "Resource.dat");
-			Func<string, byte[]> getter;
+			Func<string, DU.LzData> getter;
 
 			if (File.Exists(clusterFile))
 			{
@@ -57,7 +57,7 @@ namespace Charlotte.GameCommons
 			}
 			else
 			{
-				getter = resPath => File.ReadAllBytes(Path.Combine(@"..\..\..\..\Resource", resPath)); // $$_CheersToGimlet: throw new Exception("no Resource.dat");
+				getter = resPath => DU.LzData.PhysicalFile(Path.Combine(@"..\..\..\..\Resource", resPath)); // $$_CheersToGimlet: throw new Exception("no Resource.dat");
 			}
 			return getter;
 		}
@@ -431,30 +431,8 @@ namespace Charlotte.GameCommons
 
 			DX.ScreenFlip();
 
-			if (DX.CheckHitKey(DX.KEY_INPUT_ESCAPE) == 1 || DX.ProcessMessage() == -1)
-			{
+			if (DX.ProcessMessage() == -1)
 				throw new DU.CoffeeBreak();
-			}
-
-			// F11キー押下 -> フルスクリーンの切り替え
-			//
-			if (Keyboard.GetInput(DX.KEY_INPUT_F11) == 1)
-			{
-				// ? 現在フルスクリーン -> フルスクリーン解除
-				if (
-					DD.RealScreenSize.W == DD.TargetMonitor.W &&
-					DD.RealScreenSize.H == DD.TargetMonitor.H
-					)
-				{
-					DD.SetRealScreenSize(GameSetting.UserScreenSize.W, GameSetting.UserScreenSize.H);
-					GameSetting.FullScreen = false;
-				}
-				else // ? 現在フルスクリーンではない -> フルスクリーンにする
-				{
-					DD.SetRealScreenSize(DD.TargetMonitor.W, DD.TargetMonitor.H);
-					GameSetting.FullScreen = true;
-				}
-			}
 
 			SCommon.Swap(ref DD.MainScreen, ref DD.LastMainScreen);
 			DD.MainScreen.ChangeDrawScreenToThis();
@@ -470,6 +448,31 @@ namespace Charlotte.GameCommons
 			Mouse.EachFrame();
 			Pad.EachFrame();
 
+			// エスケープキー押下 -> ゲーム終了
+			//
+			if (1 <= Keyboard.GetInput(DX.KEY_INPUT_ESCAPE))
+				throw new DU.CoffeeBreak();
+
+			// ALT+エンターキー押下 -> フルスクリーンの切り替え
+			//
+			if ((1 <= Keyboard.GetInput(DX.KEY_INPUT_LALT) || 1 <= Keyboard.GetInput(DX.KEY_INPUT_RALT)) && Keyboard.GetInput(DX.KEY_INPUT_RETURN) == 1)
+			{
+				// ? 現在フルスクリーン -> フルスクリーン解除
+				if (
+					DD.RealScreenSize.W == DD.TargetMonitor.W &&
+					DD.RealScreenSize.H == DD.TargetMonitor.H
+					)
+				{
+					DD.SetRealScreenSize(GameSetting.UserScreenSize.W, GameSetting.UserScreenSize.H);
+					GameSetting.FullScreen = false;
+				}
+				else // ? 現在フルスクリーンではない -> フルスクリーンにする
+				{
+					DD.SetRealScreenSize(DD.TargetMonitor.W, DD.TargetMonitor.H);
+					GameSetting.FullScreen = true;
+				}
+				DD.FreezeInput(30); // エンターキーの押下がゲームに影響しないように
+			}
 			DX.ClearDrawScreen();
 		}
 
@@ -515,6 +518,18 @@ namespace Charlotte.GameCommons
 			FreezeInputFrame = frame;
 		}
 
+		public static void FreezeInputUntilRelease()
+		{
+			foreach (Input input in Inputs.GetAllInput())
+				input.FreezeInputUntilRelease();
+		}
+
+		public static void UnfreezeInputUntilRelease()
+		{
+			foreach (Input input in Inputs.GetAllInput())
+				input.UnfreezeInputUntilRelease();
+		}
+
 		public static void SetRealScreenSize(int w, int h)
 		{
 			if (DD.RealScreenSize.W == w && DD.RealScreenSize.H == h) // ? 今のサイズと同じ
@@ -547,19 +562,20 @@ namespace Charlotte.GameCommons
 			DD.Draw(Pictures.WhiteBox, new I4Rect(0, 0, GameConfig.ScreenSize.W, GameConfig.ScreenSize.H).ToD4Rect());
 		}
 
-		public static void SetCurtain(double whiteLevel)
-		{
-			Curtain.CurrWhiteLevel = whiteLevel;
-			Curtain.NextWhiteLevels.Clear();
-		}
-
-		public static void SetCurtainTarget(double destWhiteLevel, int frameMax = 30)
+		public static void SetCurtain(double destWhiteLevel, int frameMax = 30) // frameMax: 変更し終わるまでのフレーム数(1～), 0 == 直ちに変更する。
 		{
 			Curtain.NextWhiteLevels.Clear();
 
-			foreach (Scene scene in Scene.Create(frameMax))
+			if (frameMax == 0) // ? 直ちに変更する。
 			{
-				Curtain.NextWhiteLevels.Enqueue(DD.AToBRate(Curtain.CurrWhiteLevel, destWhiteLevel, scene.Rate));
+				Curtain.CurrWhiteLevel = destWhiteLevel;
+			}
+			else // ? 指定フレームかけて変更する。
+			{
+				foreach (Scene scene in Scene.Create(frameMax))
+				{
+					Curtain.NextWhiteLevels.Enqueue(DD.AToBRate(Curtain.CurrWhiteLevel, destWhiteLevel, scene.Rate));
+				}
 			}
 		}
 
@@ -888,6 +904,13 @@ namespace Charlotte.GameCommons
 				counter++;
 		}
 
+		// memo:
+		// タスクの型：
+		// -- Func<bool>
+		// タスクの戻り値：
+		// -- 真 == このタスクとしての処理を行った。-- タスク継続 || これが最後の処理
+		// -- 偽 == 何ら処理を行っていない。-- タスク終了
+
 		/// <summary>
 		/// タスクリストを実行する。
 		/// -- リスト内全てのタスクを実行する。
@@ -896,18 +919,15 @@ namespace Charlotte.GameCommons
 		/// このメソッド自体もタスクにできるよ。
 		/// </summary>
 		/// <param name="tasks">タスクリスト</param>
-		/// <returns>タスクがあったか(タスクを実行したか)</returns>
+		/// <returns>タスクの処理を実行したか</returns>
 		public static bool ExecuteTasks(List<Func<bool>> tasks)
 		{
-			if (tasks.Count == 0)
-				return false;
-
 			for (int index = 0; index < tasks.Count; index++)
 				if (!tasks[index]())
 					tasks[index] = null;
 
 			tasks.RemoveAll(v => v == null);
-			return true;
+			return 1 <= tasks.Count;
 		}
 
 		/// <summary>
@@ -918,16 +938,33 @@ namespace Charlotte.GameCommons
 		/// このメソッド自体もタスクにできるよ。
 		/// </summary>
 		/// <param name="tasks">タスクシーケンス</param>
-		/// <returns>タスクがあったか(タスクを実行したか)</returns>
+		/// <returns>タスクの処理を実行したか</returns>
 		public static bool ExecuteTaskSequence(LinkedList<Func<bool>> tasks)
 		{
-			if (tasks.Count == 0)
-				return false;
-
-			if (!tasks.First.Value())
+			while (1 <= tasks.Count && !tasks.First.Value())
 				tasks.RemoveFirst();
 
-			return true;
+			return 1 <= tasks.Count;
+		}
+
+		/// <summary>
+		/// 指定処理を１度だけ実行するタスクを返す。
+		/// </summary>
+		/// <param name="routine">指定処理</param>
+		/// <returns>指定処理を１度だけ実行するタスク</returns>
+		public static Func<bool> Once(Action routine)
+		{
+			bool done = false;
+
+			return () =>
+			{
+				if (done)
+					return false;
+
+				routine();
+				done = true;
+				return true;
+			};
 		}
 
 		/// <summary>

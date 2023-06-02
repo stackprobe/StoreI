@@ -2,6 +2,8 @@
 	-> Directory
 General\Dummy.png
 	-> File 1970/01/01 (木) 00:00:00 / 2021/01/13 (水) 13:32:40 / 188
+General\TransparentBox.png
+	-> File 1970/01/01 (木) 00:00:00 / 2023/05/31 (水) 02:21:38 / 145
 General\WhiteBox.png
 	-> File 1970/01/01 (木) 00:00:00 / 2021/01/13 (水) 13:32:40 / 124
 General\WhiteCircle.png

@@ -39,7 +39,7 @@ namespace Charlotte.GameCommons
 
 		private bool? SmallResourceFlag = null;
 
-		private Func<byte[]> FileDataGetter;
+		private Func<DU.LzData> FileDataGetter;
 		private Action<Music> PostLoaded = instance => { };
 
 		private int Handle; // -1 == 未ロード
@@ -77,7 +77,7 @@ namespace Charlotte.GameCommons
 		/// 音楽データの取得メソッドから音楽をロードする。
 		/// </summary>
 		/// <param name="getFileData">音楽データの取得メソッド</param>
-		public Music(Func<byte[]> getFileData)
+		public Music(Func<DU.LzData> getFileData)
 		{
 			this.FileDataGetter = getFileData;
 			this.Handle = -1;
@@ -89,7 +89,7 @@ namespace Charlotte.GameCommons
 		{
 			if (this.Handle == -1)
 			{
-				byte[] fileData = this.FileDataGetter();
+				byte[] fileData = this.FileDataGetter().Data.Value;
 				int handle = -1;
 
 				DU.PinOn(fileData, p => handle = DX.LoadSoundMemByMemImage(p, (ulong)fileData.Length));
@@ -141,17 +141,17 @@ namespace Charlotte.GameCommons
 		{
 			if (Playing != this)
 			{
-				Fadeout();
+				FadeOut();
 				TaskSequence.AddLast(SCommon.Supplier(this.E_Play()));
 				Playing = this;
 			}
 		}
 
-		public static void Fadeout(int frameMax = 60)
+		public static void FadeOut(int frameMax = 60)
 		{
 			if (Playing != null)
 			{
-				TaskSequence.AddLast(SCommon.Supplier(Playing.E_Fadeout(frameMax)));
+				TaskSequence.AddLast(SCommon.Supplier(Playing.E_FadeOut(frameMax)));
 				Playing = null;
 			}
 		}
@@ -172,9 +172,11 @@ namespace Charlotte.GameCommons
 
 			if (DX.ChangeVolumeSoundMem(DD.RateToByte(GameSetting.MusicVolume), this.GetHandle()) != 0) // ? 失敗
 				throw new Exception("ChangeVolumeSoundMem failed");
+
+			yield return true;
 		}
 
-		private IEnumerable<bool> E_Fadeout(int frameMax)
+		private IEnumerable<bool> E_FadeOut(int frameMax)
 		{
 			foreach (Scene scene in Scene.Create(frameMax))
 			{
@@ -186,6 +188,8 @@ namespace Charlotte.GameCommons
 
 			if (DX.StopSoundMem(this.GetHandle()) != 0) // ? 失敗
 				throw new Exception("StopSoundMem failed");
+
+			yield return true;
 		}
 	}
 }

@@ -162,10 +162,10 @@ namespace Charlotte.GameCommons
 				if (!File.Exists(Path.Combine(ProcMain.SelfDir, requiredFileName)))
 					throw new Exception("no file: " + requiredFileName);
 
+			GameSetting.Initialize();
+
 			if (File.Exists(saveDataFile))
 				GameSetting.Deserialize(Encoding.ASCII.GetString(DU.Hasher.UnaddHash(DU.SaveDataFileFormatter.Decode(File.ReadAllBytes(saveDataFile)))));
-			else
-				GameSetting.Initialize();
 
 			DD.Save = () =>
 			{
@@ -184,7 +184,7 @@ namespace Charlotte.GameCommons
 
 			Icon icon;
 
-			using (MemoryStream mem = new MemoryStream(DD.GetResFileData(@"General\app.ico")))
+			using (MemoryStream mem = new MemoryStream(DD.GetResFileData(@"General\app.ico").Data.Value))
 			{
 				icon = new Icon(mem);
 			}

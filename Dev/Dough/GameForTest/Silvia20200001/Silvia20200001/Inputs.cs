@@ -17,10 +17,10 @@ namespace Charlotte
 		public static Input B = new Input(DX.KEY_INPUT_X, 7, "効果Ⅱ・キャンセル");
 		public static Input C = new Input(DX.KEY_INPUT_C, 5, "特殊Ⅰ");
 		public static Input D = new Input(DX.KEY_INPUT_V, 8, "特殊Ⅱ");
-		public static Input E = new Input(DX.KEY_INPUT_B, 6, "特殊Ⅲ");
-		public static Input F = new Input(DX.KEY_INPUT_N, 9, "特殊Ⅳ");
-		public static Input L = new Input(DX.KEY_INPUT_LCONTROL, 10, "左補助");
-		public static Input R = new Input(DX.KEY_INPUT_LSHIFT, 11, "右補助");
+		public static Input E = new Input(DX.KEY_INPUT_A, 6, "特殊Ⅲ");
+		public static Input F = new Input(DX.KEY_INPUT_S, 9, "特殊Ⅳ");
+		public static Input L = new Input(DX.KEY_INPUT_D, 10, "左補助");
+		public static Input R = new Input(DX.KEY_INPUT_F, 11, "右補助");
 		public static Input PAUSE = new Input(DX.KEY_INPUT_SPACE, 13, "ポーズ");
 		public static Input START = new Input(DX.KEY_INPUT_RETURN, 12, "スタート");
 

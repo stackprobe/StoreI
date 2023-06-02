@@ -39,7 +39,7 @@ namespace Charlotte.GameCommons
 
 		private bool? SmallResourceFlag = null;
 
-		private Func<byte[]> FileDataGetter;
+		private Func<DU.LzData> FileDataGetter;
 
 		private class HandleInfo
 		{
@@ -67,7 +67,7 @@ namespace Charlotte.GameCommons
 		/// 効果音データの取得メソッドから効果音をロードする。
 		/// </summary>
 		/// <param name="getFileData">効果音データの取得メソッド</param>
-		public SoundEffect(Func<byte[]> getFileData)
+		public SoundEffect(Func<DU.LzData> getFileData)
 		{
 			this.FileDataGetter = getFileData;
 			this.Handles = null;
@@ -79,7 +79,7 @@ namespace Charlotte.GameCommons
 		{
 			if (this.Handles == null)
 			{
-				byte[] fileData = this.FileDataGetter();
+				byte[] fileData = this.FileDataGetter().Data.Value;
 				int handle = -1;
 
 				DU.PinOn(fileData, p => handle = DX.LoadSoundMemByMemImage(p, (ulong)fileData.Length));

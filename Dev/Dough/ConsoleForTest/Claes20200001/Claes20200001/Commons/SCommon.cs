@@ -751,6 +751,12 @@ namespace Charlotte.Commons
 		/// <returns>フルパス</returns>
 		public static string ToFullPath(string path)
 		{
+			if (path == null)
+				throw new Exception("パスが定義されていません。(null)");
+
+			if (path == "")
+				throw new Exception("パスが定義されていません。(空文字列)");
+
 			path = Path.GetFullPath(path);
 			path = PutYen(path) + ".";
 			path = Path.GetFullPath(path);

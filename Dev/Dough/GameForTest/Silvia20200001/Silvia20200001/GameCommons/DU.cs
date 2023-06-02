@@ -297,7 +297,7 @@ namespace Charlotte.GameCommons
 		{
 			string dir = DU.WD.MakePath();
 			string file = Path.Combine(dir, Path.GetFileName(resPath));
-			byte[] fileData = DD.GetResFileData(resPath);
+			byte[] fileData = DD.GetResFileData(resPath).Data.Value;
 
 			SCommon.CreateDir(dir);
 			File.WriteAllBytes(file, fileData);
@@ -520,6 +520,33 @@ namespace Charlotte.GameCommons
 					throw null; // never
 
 				return hash;
+			}
+		}
+
+		public class LzData
+		{
+			public readonly int Length;
+			public readonly Lazy<byte[]> Data;
+
+			public static LzData PhysicalFile(string file)
+			{
+				file = SCommon.ToFullPath(file);
+
+				if (!File.Exists(file))
+					throw new Exception("no file");
+
+				FileInfo info = new FileInfo(file);
+
+				if ((long)int.MaxValue < info.Length)
+					throw new Exception("Bad file");
+
+				return new LzData((int)info.Length, () => File.ReadAllBytes(file));
+			}
+
+			public LzData(int length, Func<byte[]> getData)
+			{
+				this.Length = length;
+				this.Data = new Lazy<byte[]>(getData);
 			}
 		}
 	}

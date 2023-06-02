@@ -28,7 +28,7 @@ namespace Charlotte
 		{
 			List<object> dest = new List<object>();
 
-			// ---- このクラス内の項目ここから ----
+			// ---- 保存データここから ----
 
 			dest.Add(UserScreenSize.W);
 			dest.Add(UserScreenSize.H);
@@ -38,17 +38,13 @@ namespace Charlotte
 			dest.Add(DD.RateToPPB(MusicVolume));
 			dest.Add(DD.RateToPPB(SEVolume));
 
-			// ---- このクラス内の項目ここまで ----
-
-			// ---- 他クラスの情報ここから ----
-
 			foreach (Input input in Inputs.GetAllInput())
 			{
 				dest.Add(input.Key);
 				dest.Add(input.Button);
 			}
 
-			// ---- 他クラスの情報ここまで ----
+			// ---- 保存データここまで ----
 
 			dest.Insert(0, dest.Count + 1);
 
@@ -63,7 +59,7 @@ namespace Charlotte
 			if (int.Parse(src[c++]) != src.Length)
 				throw new Exception("Bad Length");
 
-			// ---- このクラス内の項目ここから ----
+			// ---- 保存データここから ----
 
 			UserScreenSize.W = SCommon.ToRange(int.Parse(src[c++]), 1, SCommon.IMAX);
 			UserScreenSize.H = SCommon.ToRange(int.Parse(src[c++]), 1, SCommon.IMAX);
@@ -73,17 +69,13 @@ namespace Charlotte
 			MusicVolume = DD.PPBToRate(int.Parse(src[c++]));
 			SEVolume = DD.PPBToRate(int.Parse(src[c++]));
 
-			// ---- このクラス内の項目ここまで ----
-
-			// ---- 他クラスの情報ここから ----
-
 			foreach (Input input in Inputs.GetAllInput())
 			{
 				input.Key = SCommon.ToRange(int.Parse(src[c++]), 0, Keyboard.KEY_MAX - 1);
 				input.Button = SCommon.ToRange(int.Parse(src[c++]), 0, Pad.BUTTON_MAX - 1);
 			}
 
-			// ---- 他クラスの情報ここまで ----
+			// ---- 保存データここまで ----
 
 			if (c != src.Length)
 				throw new Exception("Length error");

@@ -24,6 +24,6 @@ namespace Charlotte
 		public static Color LibbonBackColor = Color.FromArgb(96, 24, 48);
 		public static Color LibbonForeColor = Color.White;
 
-		public static int MaxSizeOfSmallResource = 2000000;
+		public static int MaxSizeOfSmallResource = 1000000;
 	}
 }

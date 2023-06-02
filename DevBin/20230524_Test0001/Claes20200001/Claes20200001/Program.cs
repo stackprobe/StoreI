@@ -66,7 +66,10 @@ namespace Charlotte
 			//new Test0005().Test04(); // 小森平
 			//new Test0005().Test05();
 			//new Test0005().Test06();
-			new Test0006().Test01(); // StoreJ to StoreI
+			//new Test0006().Test01(); // StoreJ to StoreI
+			//new Test0007().Test01();
+			//new Test0007().Test02(); // unsafe
+			new Test0007().Test03();
 
 			// --
 		}

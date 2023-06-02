@@ -94,14 +94,16 @@ namespace Charlotte
 				{
 					string resPath = SCommon.ChangeRoot(file, resourceDir);
 					byte[] data = File.ReadAllBytes(file);
+					int originalDataSize = data.Length;
 
 					Console.WriteLine("+ " + resPath);
-					Console.WriteLine("S " + data.Length);
+					Console.WriteLine("S " + originalDataSize);
 
 					data = SCommon.Compress(data);
 					LiteShuffleP29(data);
 
 					SCommon.WritePartString(writer, resPath);
+					SCommon.WritePartInt(writer, originalDataSize);
 					SCommon.WritePartInt(writer, data.Length);
 					SCommon.Write(writer, data);
 

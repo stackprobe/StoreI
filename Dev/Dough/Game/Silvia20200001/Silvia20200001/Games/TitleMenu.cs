@@ -6,6 +6,7 @@ using DxLibDLL;
 using Charlotte.Commons;
 using Charlotte.Drawings;
 using Charlotte.GameCommons;
+using Charlotte.Games.Adventures;
 
 namespace Charlotte.Games
 {
@@ -23,8 +24,8 @@ namespace Charlotte.Games
 
 		public static void Run()
 		{
-			DD.SetCurtain(-1.0);
-			DD.SetCurtainTarget(0.0);
+			DD.SetCurtain(-1.0, 0);
+			DD.SetCurtain(0.0);
 
 			double z = 1.3;
 
@@ -42,6 +43,7 @@ namespace Charlotte.Games
 			{
 				"スタート",
 				"コンテニュー",
+				"おまけ",
 				"設定",
 				"終了",
 			});
@@ -72,10 +74,14 @@ namespace Charlotte.Games
 						break;
 
 					case 2:
-						Setting();
+						BonusMenu();
 						break;
 
 					case 3:
+						Setting();
+						break;
+
+					case 4:
 						goto endOfMenu;
 
 					default:
@@ -84,8 +90,8 @@ namespace Charlotte.Games
 			}
 		endOfMenu:
 
-			DD.SetCurtainTarget(-1.0);
-			Music.Fadeout(30);
+			DD.SetCurtain(-1.0);
+			Music.FadeOut(30);
 
 			foreach (Scene scene in Scene.Create(40))
 			{
@@ -96,16 +102,69 @@ namespace Charlotte.Games
 
 		private static void StartTheGame()
 		{
-			Game.Run();
+			using (new ADGameMaster())
+			{
+				ADGameMaster.I.Run();
+			}
 
 			Musics.RemotestLibrary.Play();
 		}
 
 		private static void ContinueTheGame()
 		{
-			Game.Run();
+			ContinueMenu.Run();
 
 			Musics.RemotestLibrary.Play();
+		}
+
+		private static void BonusMenu()
+		{
+			SimpleMenu menu = new SimpleMenu(30, 40, 30, 320, "おまけメニュー", new string[]
+			{
+				"おまけ①",
+				"おまけ②",
+				"おまけ③",
+				"戻る",
+			});
+
+			for (; ; )
+			{
+				DD.FreezeInput();
+
+				for (; ; )
+				{
+					DrawWall();
+
+					if (menu.Draw())
+						break;
+
+					DD.EachFrame();
+				}
+				DD.FreezeInput();
+
+				switch (menu.SelectedIndex)
+				{
+					case 0:
+						SoundEffects.Save.Play();
+						break;
+
+					case 1:
+						SoundEffects.Load.Play();
+						break;
+
+					case 2:
+						SoundEffects.Buy.Play();
+						break;
+
+					case 3:
+						goto endOfMenu;
+
+					default:
+						throw null; // never
+				}
+			}
+		endOfMenu:
+			;
 		}
 
 		private static void Setting()
@@ -272,14 +331,39 @@ namespace Charlotte.Games
 					if (Keyboard.GetInput(c) == 1)
 						key = c;
 
-				if (key == DX.KEY_INPUT_F11) // F11 --> フルスクリーン切り替えに使用
-					key = -1;
+				// アサインできないキー
+				int[] unassignableKeys = new int[]
+				{
+					DX.KEY_INPUT_ESCAPE, // ゲーム終了に使用
 
-				if (key == DX.KEY_INPUT_ESCAPE) // エスケープ --> ゲーム終了に使用
-					key = -1;
+					// シフト系キー ここから (左から右)
 
-				for (int c = 0; c < index; c++)
-					if (dest[c] == key)
+					DX.KEY_INPUT_CAPSLOCK,
+					DX.KEY_INPUT_LSHIFT,
+					DX.KEY_INPUT_LCONTROL,
+					DX.KEY_INPUT_LWIN,
+					DX.KEY_INPUT_LALT,
+					DX.KEY_INPUT_KANA, // [カタカナ/ひらがな/ローマ字]キー
+					DX.KEY_INPUT_RALT,
+					DX.KEY_INPUT_RWIN,
+					DX.KEY_INPUT_APPS,
+					DX.KEY_INPUT_RCONTROL,
+					DX.KEY_INPUT_RSHIFT,
+
+					// シフト系キー ここまで
+
+					DX.KEY_INPUT_SYSRQ, // PrintScreen/SysRq
+					DX.KEY_INPUT_SCROLL, // ScrollLock
+					DX.KEY_INPUT_PAUSE, // Pause/Break
+					DX.KEY_INPUT_NUMLOCK, // NumLock
+				};
+
+				foreach (int unassignableKey in unassignableKeys) // アサインできないキーを却下する。
+					if (key == unassignableKey)
+						key = -1;
+
+				for (int c = 0; c < index; c++) // 既にアサインされたキーを却下する。
+					if (key == dest[c])
 						key = -1;
 
 				if (key != -1)

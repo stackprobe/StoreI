@@ -66,8 +66,8 @@ namespace Charlotte.GameCommons
 		/// 画像データの取得メソッドから画像を作成する。
 		/// </summary>
 		/// <param name="getFileData">画像データの取得メソッド</param>
-		public Picture(Func<byte[]> getFileData)
-			: this(() => DU.GetPictureData(getFileData()))
+		public Picture(Func<DU.LzData> getFileData)
+			: this(() => DU.GetPictureData(getFileData().Data.Value))
 		{ }
 
 		/// <summary>

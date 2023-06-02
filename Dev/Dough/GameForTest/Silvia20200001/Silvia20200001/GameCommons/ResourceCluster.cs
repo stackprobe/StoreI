@@ -14,6 +14,7 @@ namespace Charlotte.GameCommons
 		private class ElementFileInfo
 		{
 			public string ResPath;
+			public int OriginalDataSize;
 			public long StartPos;
 			public int Length;
 		}
@@ -31,11 +32,13 @@ namespace Charlotte.GameCommons
 				while (reader.Position < clusterFileSize)
 				{
 					string resPath = SCommon.ReadPartString(reader);
+					int originalDataSize = SCommon.ReadPartInt(reader);
 					int length = SCommon.ReadPartInt(reader);
 
 					this.ElementFiles.Add(new ElementFileInfo()
 					{
 						ResPath = resPath,
+						OriginalDataSize = originalDataSize,
 						StartPos = reader.Position,
 						Length = length,
 					});
@@ -45,7 +48,7 @@ namespace Charlotte.GameCommons
 			}
 		}
 
-		public byte[] GetData(string resPath)
+		public DU.LzData GetData(string resPath)
 		{
 			int index = SCommon.GetIndex(this.ElementFiles, v => SCommon.CompIgnoreCase(v.ResPath, resPath));
 
@@ -53,18 +56,25 @@ namespace Charlotte.GameCommons
 				throw new Exception("resPath: " + resPath);
 
 			ElementFileInfo elementFile = this.ElementFiles[index];
-			byte[] data;
 
-			using (FileStream reader = new FileStream(this.ClusterFile, FileMode.Open, FileAccess.Read))
+			return new DU.LzData(elementFile.OriginalDataSize, () =>
 			{
-				reader.Seek(elementFile.StartPos, SeekOrigin.Begin);
-				data = SCommon.Read(reader, elementFile.Length);
-			}
+				byte[] data;
 
-			LiteShuffleP29(data);
-			data = SCommon.Decompress(data);
+				using (FileStream reader = new FileStream(this.ClusterFile, FileMode.Open, FileAccess.Read))
+				{
+					reader.Seek(elementFile.StartPos, SeekOrigin.Begin);
+					data = SCommon.Read(reader, elementFile.Length);
+				}
 
-			return data;
+				LiteShuffleP29(data);
+				data = SCommon.Decompress(data);
+
+				if (data.Length != elementFile.OriginalDataSize)
+					throw new Exception("Bad data.Length");
+
+				return data;
+			});
 		}
 
 		private static void LiteShuffleP29(byte[] data)
