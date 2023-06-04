@@ -36,11 +36,6 @@ namespace Charlotte.GameCommons
 		public static Button R = new Button();
 		public static Button M = new Button();
 
-		/// <summary>
-		/// 最後にクリックを行ってから経過したフレーム数
-		/// </summary>
-		public static int LastClickFrame;
-
 		private static I2Point P_Position = new I2Point(0, 0);
 
 		public static I2Point Position
@@ -76,11 +71,6 @@ namespace Charlotte.GameCommons
 			DU.UpdateButtonCounter(ref L.Status, (status & DX.MOUSE_INPUT_LEFT) != 0);
 			DU.UpdateButtonCounter(ref R.Status, (status & DX.MOUSE_INPUT_RIGHT) != 0);
 			DU.UpdateButtonCounter(ref M.Status, (status & DX.MOUSE_INPUT_MIDDLE) != 0);
-
-			if (status != 0)
-				LastClickFrame = 0;
-			else
-				LastClickFrame++;
 
 			int x;
 			int y;

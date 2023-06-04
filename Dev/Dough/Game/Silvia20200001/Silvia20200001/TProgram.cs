@@ -27,9 +27,9 @@ namespace Charlotte
 #if DEBUG
 			// -- choose one --
 
-			//Logo.Run();
-			//TitleMenu.Run();
-			ContinueMenu.Run();
+			Game.Run();
+			//Game.Run();
+			//Game.Run();
 
 			// --
 #endif
@@ -37,7 +37,7 @@ namespace Charlotte
 
 		private static void Main4()
 		{
-			Logo.Run();
+			Game.Run();
 		}
 	}
 }

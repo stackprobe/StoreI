@@ -8,11 +8,11 @@ namespace Charlotte
 {
 	public static class Consts
 	{
-		public const string MID_DIR = @"C:\temp\_CheersToGimlet";
+		public readonly static string MID_DIR = @"C:\temp\_CheersToGimlet";
 
 		#region IDENTIFIERS
 
-		public const string RES_IDENTIFIERS = @"
+		public readonly static string RES_IDENTIFIERS = @"
 
 _CheersToGimlet
 

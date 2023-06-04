@@ -38,7 +38,7 @@ namespace Charlotte
 #if DEBUG
 			// -- choose one --
 
-			Main4(new ArgsReader(new string[] { @"C:\Dev\Dough\GameMix\Silvia20200001", "Silvia20200001", @"C:\temp\Game.exe" }));
+			Main4(new ArgsReader(new string[] { @"C:\Dev\Dough\Game\Silvia20200001", "Silvia20200001", @"C:\temp\Game.exe" }));
 			//Main4(new ArgsReader(new string[] { }));
 			//Main4(new ArgsReader(new string[] { }));
 

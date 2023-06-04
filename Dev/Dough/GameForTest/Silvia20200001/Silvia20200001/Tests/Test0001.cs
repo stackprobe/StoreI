@@ -12,10 +12,16 @@ namespace Charlotte.Tests
 	{
 		public void Test01()
 		{
+			DD.FreezeInput();
+
 			for (; ; )
 			{
+				if (Inputs.START.GetInput() == 1)
+					break;
+
 				DD.EachFrame();
 			}
+			DD.FreezeInput();
 		}
 	}
 }
